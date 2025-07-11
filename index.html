@@ -1,30 +1,714 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Os Segredos de Karina</title>
-  <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Os Segredos de Karina</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D0D0D;
+            color: #F4F4F4;
+            scroll-behavior: smooth;
+        }
+        .title-font {
+            font-family: 'Cormorant', serif;
+        }
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .hover-glow:hover {
+            box-shadow: 0 0 15px rgba(197, 30, 46, 0.7);
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .smoke-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .smoke-effect::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 10% 20%, rgba(31, 31, 46, 0.3) 0%, transparent 20%),
+                        radial-gradient(circle at 90% 80%, rgba(31, 31, 46, 0.3) 0%, transparent 20%);
+            pointer-events: none;
+        }
+        .character-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .character-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
+        }
+        .fragment {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(197, 30, 46, 0.7);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        .fragment:hover {
+            transform: scale(1.5);
+            box-shadow: 0 0 15px rgba(197, 30, 46, 1);
+        }
+    </style>
 </head>
-<body>
-  <header>
-    <h1>Os Segredos de Karina</h1>
-    <nav>
-      <a href="index.html">Início</a>
-      <a href="sobre.html">História</a>
-      <a href="personagens.html">Personagens</a>
-      <a href="galeria.html">Galeria</a>
+<body class="relative">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black bg-opacity-80 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-xl title-font text-white hover:text-red-400 transition">Os Segredos de Karina</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#historia" class="text-gray-300 hover:text-white transition">História</a>
+                    <a href="#personagens" class="text-gray-300 hover:text-white transition">Personagens</a>
+                    <a href="#gameplay" class="text-gray-300 hover:text-white transition">Gameplay</a>
+                    <a href="#ambientes" class="text-gray-300 hover:text-white transition">Ambientes</a>
+                    <a href="#trailer" class="text-gray-300 hover:text-white transition">Trailer</a>
+                    <a href="#wishlist" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white transition">Wishlist</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black bg-opacity-90">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#historia" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">História</a>
+                <a href="#personagens" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Personagens</a>
+                <a href="#gameplay" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Gameplay</a>
+                <a href="#ambientes" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Ambientes</a>
+                <a href="#trailer" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Trailer</a>
+                <a href="#wishlist" class="block px-3 py-2 bg-red-600 text-white rounded-md">Wishlist</a>
+            </div>
+        </div>
     </nav>
-  </header>
 
-  <section class="hero">
-    <h2>Descubra o mistério que envolve Karina...</h2>
-    <p>Um jogo indie de suspense, aventura e escolhas que mudam tudo.</p>
-    <a href="sobre.html" class="btn">Explorar História</a>
-  </section>
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden smoke-effect">
+        <video autoplay muted loop class="absolute w-full h-full object-cover z-0">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-dark-alley-with-a-single-light-1724-large.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+        <div class="relative z-20 text-center px-4 max-w-4xl fade-in">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 title-font">Os Segredos de Karina</h1>
+            <p class="text-xl md:text-2xl mb-8">"Você teria coragem de descobrir o que está escondido nas sombras?"</p>
+            <a href="#historia" class="inline-block px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-md text-lg font-medium transition transform hover:scale-105">
+                Descobrir <i class="fas fa-chevron-down ml-2"></i>
+            </a>
+        </div>
+        <div class="absolute bottom-10 left-0 right-0 text-center z-20">
+            <a href="#historia" class="inline-block animate-bounce">
+                <i class="fas fa-chevron-down text-2xl text-white"></i>
+            </a>
+        </div>
+    </section>
 
-  <footer>
-    <p>&copy; 2025 Tilson Tchilson Studios</p>
-  </footer>
+    <!-- História Section -->
+    <section id="historia" class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-900 to-black">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-4xl font-bold mb-12 text-center title-font">A História</h2>
+            
+            <div class="mb-24 relative">
+                <div class="absolute -left-8 top-1/2 transform -translate-y-1/2 w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold">1</span>
+                </div>
+                <div class="ml-16 bg-gray-800 bg-opacity-70 p-8 rounded-lg shadow-xl">
+                    <h3 class="text-2xl font-bold mb-4 title-font">Karina, 17 anos, Brooklyn</h3>
+                    <p class="text-gray-300 leading-relaxed">Karina tinha uma vida comum no Brooklyn - escola, amigos, uma mãe preocupada. Até que um evento inexplicável mudou tudo. O que começou como pesadelos recorrentes se transformou em algo muito mais sinistro quando objetos em sua casa começaram a se mover sozinhos.</p>
+                </div>
+            </div>
+            
+            <div class="mb-24 relative">
+                <div class="absolute -left-8 top-1/2 transform -translate-y-1/2 w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold">2</span>
+                </div>
+                <div class="ml-16 bg-gray-800 bg-opacity-70 p-8 rounded-lg shadow-xl">
+                    <h3 class="text-2xl font-bold mb-4 title-font">O Chamado Misterioso</h3>
+                    <p class="text-gray-300 leading-relaxed">A ligação da detetive Amanda Black foi o ponto de virada. "Seu nome apareceu em um caso antigo", ela disse. "Algo que você precisa ver." As pistas levavam a desaparecimentos inexplicáveis, todos conectados a um símbolo que Karina reconheceu de seus sonhos.</p>
+                </div>
+            </div>
+            
+            <div class="mb-24 relative">
+                <div class="absolute -left-8 top-1/2 transform -translate-y-1/2 w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold">3</span>
+                </div>
+                <div class="ml-16 bg-gray-800 bg-opacity-70 p-8 rounded-lg shadow-xl">
+                    <h3 class="text-2xl font-bold mb-4 title-font">O Mundo Duplo</h3>
+                    <p class="text-gray-300 leading-relaxed">Karina descobriu que podia atravessar para um mundo sombrio, um reflexo distorcido da realidade onde a luz e as sombras ditavam as regras. Neste lugar, seus medos tomavam forma física e segredos de família há muito enterrados começaram a ressurgir.</p>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <div class="absolute -left-8 top-1/2 transform -translate-y-1/2 w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold">4</span>
+                </div>
+                <div class="ml-16 bg-gray-800 bg-opacity-70 p-8 rounded-lg shadow-xl">
+                    <h3 class="text-2xl font-bold mb-4 title-font">Os Segredos</h3>
+                    <p class="text-gray-300 leading-relaxed">O passado da família de Karina estava repleto de mentiras. Seus amigos - especialmente Tilson Tchilson - sabiam mais do que admitiam. Mensagens codificadas apareciam nas paredes do mundo sombrio, cada uma revelando um fragmento da verdade que alguém tentou desesperadamente esconder.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personagens Section -->
+    <section id="personagens" class="py-20 px-4 sm:px-6 lg:px-8 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold mb-12 text-center title-font">Personagens</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Karina -->
+                <div class="character-card bg-gray-800 rounded-lg overflow-hidden shadow-lg hover-glow">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1608889825103-eb2227df7f99?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 title-font">Karina</h3>
+                        <p class="text-gray-400 italic mb-4">"Não quero ser heroína. Só quero entender… por quê comigo?"</p>
+                        <p class="text-gray-300">Uma adolescente comum até descobrir que podia atravessar para um mundo sombrio. Determinada, mas assustada com o que está descobrindo sobre seu passado.</p>
+                    </div>
+                </div>
+                
+                <!-- Amanda Black -->
+                <div class="character-card bg-gray-800 rounded-lg overflow-hidden shadow-lg hover-glow">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 title-font">Amanda Black</h3>
+                        <p class="text-gray-400 italic mb-4">"A verdade sempre tem um preço. Você está disposta a pagar?"</p>
+                        <p class="text-gray-300">Uma detetive durona com um interesse inexplicável no caso de Karina. Parece saber mais do que deveria sobre os eventos sobrenaturais.</p>
+                    </div>
+                </div>
+                
+                <!-- Tilson Tchilson -->
+                <div class="character-card bg-gray-800 rounded-lg overflow-hidden shadow-lg hover-glow">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 title-font">Tilson Tchilson</h3>
+                        <p class="text-gray-400 italic mb-4">"Talvez você ache que sou só um amigo... mas segredos têm muitas camadas."</p>
+                        <p class="text-gray-300">O melhor amigo de Karina, sempre presente com seu humor peculiar. Mas há algo estranho em como ele parece antecipar eventos antes que aconteçam.</p>
+                    </div>
+                </div>
+                
+                <!-- Mãe de Karina -->
+                <div class="character-card bg-gray-800 rounded-lg overflow-hidden shadow-lg hover-glow">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 title-font">Mãe de Karina</h3>
+                        <p class="text-gray-400 italic mb-4">"Algumas coisas são melhores esquecidas... por favor, pare de procurar."</p>
+                        <p class="text-gray-300">Uma mulher assustada que claramente esconde algo sobre o passado da família. Seus pesadelos começaram quando Karina nasceu.</p>
+                    </div>
+                </div>
+                
+                <!-- O Ser Sombrio -->
+                <div class="character-card bg-gray-800 rounded-lg overflow-hidden shadow-lg hover-glow">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 title-font">O Ser Sombrio</h3>
+                        <p class="text-gray-400 italic mb-4">"Você não deveria estar aqui... mas agora que está, vamos brincar."</p>
+                        <p class="text-gray-300">Uma presença que habita o mundo sombrio, sempre observando Karina. Parece conhecer seu nome e tem um interesse especial nela.</p>
+                    </div>
+                </div>
+                
+                <!-- Irmãos -->
+                <div class="character-card bg-gray-800 rounded-lg overflow-hidden shadow-lg hover-glow">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 title-font">Os Irmãos</h3>
+                        <p class="text-gray-400 italic mb-4">"Você não é a primeira... e provavelmente não será a última."</p>
+                        <p class="text-gray-300">Figuras misteriosas que aparecem nos sonhos de Karina. Ela nunca os viu na vida real, mas sente uma conexão inquietante.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gameplay Section -->
+    <section id="gameplay" class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-black to-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold mb-12 text-center title-font">Gameplay</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                <div>
+                    <h3 class="text-3xl font-bold mb-4 title-font">Luz e Escuridão</h3>
+                    <p class="text-gray-300 mb-6">Use sua lanterna para revelar caminhos ocultos e repelir as criaturas sombrias. Mas cuidado - a bateria não dura para sempre, e algumas coisas são melhores deixadas no escuro.</p>
+                    <div class="flex space-x-4">
+                        <div class="flex-1 bg-gray-800 p-4 rounded-lg">
+                            <i class="fas fa-lightbulb text-2xl text-yellow-400 mb-2"></i>
+                            <h4 class="font-bold mb-2">Luz</h4>
+                            <p class="text-gray-400 text-sm">Revela segredos e protege contra perigos</p>
+                        </div>
+                        <div class="flex-1 bg-gray-800 p-4 rounded-lg">
+                            <i class="fas fa-moon text-2xl text-purple-400 mb-2"></i>
+                            <h4 class="font-bold mb-2">Sombra</h4>
+                            <p class="text-gray-400 text-sm">Esconde caminhos alternativos e perigos</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1633613286848-e6f43bbafb8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Gameplay Light and Dark" class="w-full h-auto">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                <div class="order-1 lg:order-2">
+                    <h3 class="text-3xl font-bold mb-4 title-font">Exploração 2.5D</h3>
+                    <p class="text-gray-300 mb-6">Navegue por ambientes ricamente detalhados com uma perspectiva única que combina elementos 2D e 3D. Cada canto do Brooklyn e seu reflexo sombrio esconde pistas e segredos.</p>
+                    <div class="flex space-x-4">
+                        <div class="flex-1 bg-gray-800 p-4 rounded-lg">
+                            <i class="fas fa-search text-2xl text-blue-400 mb-2"></i>
+                            <h4 class="font-bold mb-2">Exploração</h4>
+                            <p class="text-gray-400 text-sm">Descubra pistas e objetos escondidos</p>
+                        </div>
+                        <div class="flex-1 bg-gray-800 p-4 rounded-lg">
+                            <i class="fas fa-puzzle-piece text-2xl text-green-400 mb-2"></i>
+                            <h4 class="font-bold mb-2">Quebra-cabeças</h4>
+                            <p class="text-gray-400 text-sm">Resolva enigmas para progredir</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-2 lg:order-1 bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1633613286991-611fe299c4be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Gameplay Exploration" class="w-full h-auto">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-3xl font-bold mb-4 title-font">Decisões e Consequências</h3>
+                    <p class="text-gray-300 mb-6">Suas escolhas moldam a narrativa e o mundo ao seu redor. Cada decisão, desde diálogos até ações físicas, tem ramificações que afetam o desfecho da história.</p>
+                    <div class="flex space-x-4">
+                        <div class="flex-1 bg-gray-800 p-4 rounded-lg">
+                            <i class="fas fa-comments text-2xl text-red-400 mb-2"></i>
+                            <h4 class="font-bold mb-2">Diálogos</h4>
+                            <p class="text-gray-400 text-sm">Escolha suas respostas cuidadosamente</p>
+                        </div>
+                        <div class="flex-1 bg-gray-800 p-4 rounded-lg">
+                            <i class="fas fa-route text-2xl text-orange-400 mb-2"></i>
+                            <h4 class="font-bold mb-2">Caminhos</h4>
+                            <p class="text-gray-400 text-sm">Múltiplos finais baseados em suas ações</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1633613287212-8a1d9a4e4c0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Gameplay Choices" class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ambientes Section -->
+    <section id="ambientes" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold mb-12 text-center title-font">Ambientes</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Quarto da Karina -->
+                <div class="relative group overflow-hidden rounded-lg h-64">
+                    <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Quarto da Karina" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="text-center p-4">
+                            <h3 class="text-2xl font-bold mb-2 title-font">Quarto da Karina</h3>
+                            <p class="text-gray-300 italic">"Esta parede esconde mais do que rachaduras..."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estação Abandonada -->
+                <div class="relative group overflow-hidden rounded-lg h-64">
+                    <img src="https://images.unsplash.com/photo-1600054800747-a294843b8e93?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Estação Abandonada" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="text-center p-4">
+                            <h3 class="text-2xl font-bold mb-2 title-font">Estação Abandonada</h3>
+                            <p class="text-gray-300 italic">"O último trem partiu há muito tempo... ou será que não?"</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Brooklyn Pós-Chuva -->
+                <div class="relative group overflow-hidden rounded-lg h-64">
+                    <img src="https://images.unsplash.com/photo-1496566303111-fa5dad154a9a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Brooklyn Pós-Chuva" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="text-center p-4">
+                            <h3 class="text-2xl font-bold mb-2 title-font">Brooklyn Pós-Chuva</h3>
+                            <p class="text-gray-300 italic">"As poças refletem mais do que apenas o céu..."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mundo Sombrio -->
+                <div class="relative group overflow-hidden rounded-lg h-64">
+                    <img src="https://images.unsplash.com/photo-1518709766631-a6a7f45921c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Mundo Sombrio" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="text-center p-4">
+                            <h3 class="text-2xl font-bold mb-2 title-font">Mundo Sombrio</h3>
+                            <p class="text-gray-300 italic">"Tudo aqui parece familiar... mas errado."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Fragmentos Flutuantes -->
+                <div class="relative group overflow-hidden rounded-lg h-64">
+                    <img src="https://images.unsplash.com/photo-1519120944692-1a8d8cfc107f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Fragmentos Flutuantes" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="text-center p-4">
+                            <h3 class="text-2xl font-bold mb-2 title-font">Fragmentos Flutuantes</h3>
+                            <p class="text-gray-300 italic">"Memórias quebradas esperando para serem remendadas."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Casa da Família -->
+                <div class="relative group overflow-hidden rounded-lg h-64">
+                    <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Casa da Família" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="text-center p-4">
+                            <h3 class="text-2xl font-bold mb-2 title-font">Casa da Família</h3>
+                            <p class="text-gray-300 italic">"Cada canto desta casa guarda um segredo... e um preço."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trailer Section -->
+    <section id="trailer" class="py-20 px-4 sm:px-6 lg:px-8 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold mb-12 text-center title-font">Trailer e Imagens</h2>
+            
+            <div class="mb-16">
+                <div class="aspect-w-16 aspect-h-9 bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1633613286991-611fe299c4be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Screenshot 1" class="w-full h-auto">
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1633613286848-e6f43bbafb8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Screenshot 2" class="w-full h-auto">
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1633613287212-8a1d9a4e4c0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Screenshot 3" class="w-full h-auto">
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Screenshot 4" class="w-full h-auto">
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1519120944692-1a8d8cfc107f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Screenshot 5" class="w-full h-auto">
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Screenshot 6" class="w-full h-auto">
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Screenshot 7" class="w-full h-auto">
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1600054800747-a294843b8e93?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Screenshot 8" class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diário Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-900 to-black">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold mb-12 text-center title-font">Diário da Karina</h2>
+            
+            <div class="bg-gray-800 bg-opacity-70 p-8 rounded-lg shadow-xl mb-8">
+                <h3 class="text-2xl font-bold mb-4 title-font">11 de outubro</h3>
+                <p class="text-gray-300 leading-relaxed mb-4">Mamãe voltou a chorar sozinha... Há algo na casa que ela não quer me contar. Ouvi barulhos vindo do porão de novo, mas quando desci, a porta estava trancada como sempre. Tilson disse que eu deveria deixar pra lá, mas como posso? Os sonhos estão ficando mais intensos.</p>
+                <p class="text-gray-300 leading-relaxed">Hoje vi algo na escola - uma figura na janela do terceiro andar, mas quando subi pra ver, não tinha ninguém. Só uma mancha escura na parede que parecia... respirar?</p>
+            </div>
+            
+            <div class="bg-gray-800 bg-opacity-70 p-8 rounded-lg shadow-xl mb-8">
+                <h3 class="text-2xl font-bold mb-4 title-font">17 de outubro</h3>
+                <p class="text-gray-300 leading-relaxed mb-4">A detetive Black veio hoje. Ela sabe coisas sobre mim que eu mesma não sabia. Mostrou uma foto antiga - uma família que parece a nossa, mas de um século atrás. A menina na foto... ela tem meus olhos.</p>
+                <p class="text-gray-300 leading-relaxed">Amanhã vou com ela até a estação abandonada. Tilson não vai gostar, mas preciso de respostas. Os sussurros nas paredes estão dizendo que é hora.</p>
+            </div>
+            
+            <div class="bg-gray-800 bg-opacity-70 p-8 rounded-lg shadow-xl">
+                <h3 class="text-2xl font-bold mb-4 title-font">22 de outubro</h3>
+                <p class="text-gray-300 leading-relaxed mb-4">Encontrei o espelho. Aquele do meu sonho. Quando toquei nele, minha mão... passou para o outro lado. Do outro lado está escuro, mas consigo ver coisas se movendo. Eles me chamam pelo nome.</p>
+                <p class="text-gray-300 leading-relaxed">Mamãe está assustada. Diz que o vovô tentou destruir o espelho uma vez, mas algo o impediu. Amanhã vou atravessar. Se não voltar... Amanda prometeu cuidar do diário.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wishlist Section -->
+    <section id="wishlist" class="py-20 px-4 sm:px-6 lg:px-8 bg-black">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-8 title-font">Prepare-se para a Jornada</h2>
+            <p class="text-xl text-gray-300 mb-12">O lançamento está chegando. Adicione à sua lista de desejos para ser notificado quando estiver disponível.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="#" class="bg-gray-800 hover:bg-gray-700 p-6 rounded-lg shadow-lg transition transform hover:scale-105 hover-glow">
+                    <i class="fab fa-steam text-4xl mb-4 text-blue-400"></i>
+                    <h3 class="text-xl font-bold mb-2">Wishlist na Steam</h3>
+                    <p class="text-gray-400">Receba notificação no lançamento</p>
+                </a>
+                
+                <a href="#" class="bg-gray-800 hover:bg-gray-700 p-6 rounded-lg shadow-lg transition transform hover:scale-105 hover-glow">
+                    <i class="fas fa-download text-4xl mb-4 text-green-400"></i>
+                    <h3 class="text-xl font-bold mb-2">Jogar Demo</h3>
+                    <p class="text-gray-400">Experimente a primeira hora</p>
+                </a>
+                
+                <a href="#" class="bg-gray-800 hover:bg-gray-700 p-6 rounded-lg shadow-lg transition transform hover:scale-105 hover-glow">
+                    <i class="fas fa-shopping-cart text-4xl mb-4 text-red-400"></i>
+                    <h3 class="text-xl font-bold mb-2">Comprar (em breve)</h3>
+                    <p class="text-gray-400">Disponível em breve</p>
+                </a>
+            </div>
+            
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold mb-4 title-font">Inscreva-se para atualizações</h3>
+                <form class="max-w-md mx-auto">
+                    <div class="flex">
+                        <input type="email" placeholder="Seu e-mail" class="flex-grow px-4 py-3 rounded-l-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <button type="submit" class="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-r-lg text-white font-medium transition">Inscrever</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-black to-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold mb-12 text-center title-font">Contato & Comunidade</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg">
+                    <i class="fas fa-envelope text-3xl mb-4 text-red-400"></i>
+                    <h3 class="text-xl font-bold mb-2">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Receba atualizações exclusivas sobre o desenvolvimento.</p>
+                    <a href="#" class="text-red-400 hover:text-red-300 transition">Inscrever-se →</a>
+                </div>
+                
+                <div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg">
+                    <i class="fab fa-discord text-3xl mb-4 text-indigo-400"></i>
+                    <h3 class="text-xl font-bold mb-2">Discord Oficial</h3>
+                    <p class="text-gray-400 mb-4">Junte-se à comunidade para discutir teorias e segredos.</p>
+                    <a href="#" class="text-red-400 hover:text-red-300 transition">Participar →</a>
+                </div>
+                
+                <div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg">
+                    <i class="fas fa-bug text-3xl mb-4 text-yellow-400"></i>
+                    <h3 class="text-xl font-bold mb-2">Reportar Bugs</h3>
+                    <p class="text-gray-400 mb-4">Encontrou um problema? Nos ajude a melhorar o jogo.</p>
+                    <a href="#" class="text-red-400 hover:text-red-300 transition">Reportar →</a>
+                </div>
+                
+                <div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg">
+                    <i class="fas fa-palette text-3xl mb-4 text-green-400"></i>
+                    <h3 class="text-xl font-bold mb-2">Enviar Fanarts</h3>
+                    <p class="text-gray-400 mb-4">Compartilhe suas criações com a equipe.</p>
+                    <a href="#" class="text-red-400 hover:text-red-300 transition">Enviar →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl title-font">Os Segredos de Karina</h3>
+                    <p class="text-gray-500 mt-2">© 2023 Todos os direitos reservados</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-steam text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-itch-io text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-twitter text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-youtube text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+                <p>Este é um site fictício criado para fins de demonstração. Todas as imagens são de propriedade de seus respectivos donos.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Control -->
+    <div class="fixed bottom-4 right-4 z-50">
+        <button id="audio-control" class="w-12 h-12 bg-gray-800 bg-opacity-80 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-gray-700 transition">
+            <i class="fas fa-volume-up" id="audio-icon"></i>
+        </button>
+    </div>
+
+    <!-- Hidden Fragments (6 fragments scattered around the page) -->
+    <div class="fragment" style="top: 30%; left: 5%;" data-fragment="1"></div>
+    <div class="fragment" style="top: 70%; left: 15%;" data-fragment="2"></div>
+    <div class="fragment" style="top: 20%; right: 10%;" data-fragment="3"></div>
+    <div class="fragment" style="bottom: 25%; left: 20%;" data-fragment="4"></div>
+    <div class="fragment" style="top: 60%; right: 5%;" data-fragment="5"></div>
+    <div class="fragment" style="bottom: 15%; right: 15%;" data-fragment="6"></div>
+
+    <!-- Secret Page Modal (hidden by default) -->
+    <div id="secret-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+        <div class="bg-gray-900 max-w-4xl w-full mx-4 p-8 rounded-lg shadow-2xl relative">
+            <button id="close-secret" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2 class="text-3xl font-bold mb-6 title-font text-red-400">Arquivos Secretos Desbloqueados</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 title-font">Arquivos da Amanda</h3>
+                    <p class="text-gray-400 mb-4">Documentos classificados sobre o caso da família de Karina. Fotografias antigas mostram eventos inexplicáveis que se repetem a cada geração.</p>
+                    <a href="#" class="text-red-400 hover:text-red-300 transition">Ver mais →</a>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 title-font">Cartas da Mãe</h3>
+                    <p class="text-gray-400 mb-4">Correspondências nunca enviadas, endereçadas à avó de Karina. Revelam o desespero de uma mãe tentando proteger a filha de um destino sombrio.</p>
+                    <a href="#" class="text-red-400 hover:text-red-300 transition">Ler cartas →</a>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 title-font">Imagens Conceituais</h3>
+                    <p class="text-gray-400 mb-4">Esboços rasurados do mundo sombrio, com anotações alarmantes sobre "o preço da luz" e "a hora do despertar".</p>
+                    <a href="#" class="text-red-400 hover:text-red-300 transition">Visualizar →</a>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 title-font">Áudio Criptografado</h3>
+                    <p class="text-gray-400 mb-4">Gravações distorcidas de uma voz que parece conhecer Karina... antes mesmo de ela nascer.</p>
+                    <button id="play-audio" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white transition">Ouvir</button>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <p class="text-gray-500 italic">"Algumas portas, uma vez abertas, não podem mais ser fechadas."</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Audio control
+        const audioControl = document.getElementById('audio-control');
+        const audioIcon = document.getElementById('audio-icon');
+        let audioPlaying = false;
+        // In a real implementation, you would have an audio element here
+
+        audioControl.addEventListener('click', function() {
+            audioPlaying = !audioPlaying;
+            if (audioPlaying) {
+                audioIcon.classList.remove('fa-volume-up');
+                audioIcon.classList.add('fa-volume-mute');
+                // Here you would pause the audio
+            } else {
+                audioIcon.classList.remove('fa-volume-mute');
+                audioIcon.classList.add('fa-volume-up');
+                // Here you would play the audio
+            }
+        });
+
+        // Fragment collection system
+        const fragmentsFound = new Set();
+        const fragments = document.querySelectorAll('.fragment');
+
+        fragments.forEach(fragment => {
+            fragment.addEventListener('click', function() {
+                const fragmentId = this.getAttribute('data-fragment');
+                fragmentsFound.add(fragmentId);
+                this.style.display = 'none';
+                
+                // Check if all fragments are found
+                if (fragmentsFound.size === 6) {
+                    setTimeout(() => {
+                        document.getElementById('secret-modal').classList.remove('hidden');
+                    }, 1000);
+                }
+            });
+        });
+
+        // Close secret modal
+        document.getElementById('close-secret').addEventListener('click', function() {
+            document.getElementById('secret-modal').classList.add('hidden');
+        });
+
+        // Play secret audio
+        document.getElementById('play-audio').addEventListener('click', function() {
+            // In a real implementation, you would play a secret audio file
+            alert('Áudio secreto reproduzido: "Karina... você finalmente nos encontrou."');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
