@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Os Segredos de Karina</title>
     <script src="https://cdn.tailwindcss.com"></script>
+<link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -79,7 +80,30 @@
             box-shadow: 0 0 15px rgba(197, 30, 46, 1);
         }
     </style>
+
+<style>
+.bg-night .smoke-effect::before {
+    background: radial-gradient(circle at 10% 20%, rgba(20, 20, 30, 0.7) 0%, transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(20, 20, 30, 0.7) 0%, transparent 30%);
+}
+.bg-night .fragment:hover {
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+}
+</style>
+
+<script>
+    const hora = new Date().getHours();
+    if (hora >= 20 || hora < 6) {
+        document.body.classList.add('bg-night');
+    }
+</script>
+
 </head>
+
+<div id="preloader" class="fixed inset-0 z-50 bg-black flex items-center justify-center">
+  <div class="text-white text-xl animate-pulse">Carregando segredos...</div>
+</div>
+
 <body class="relative">
     <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-black bg-opacity-80 backdrop-blur-sm">
@@ -709,6 +733,53 @@
                 }
             });
         });
-    </script>
+    
+<!-- ScrollReveal -->
+<script src="https://unpkg.com/scrollreveal"></script>
+<script>
+    ScrollReveal().reveal('.title-font', { duration: 1000, origin: 'top', distance: '30px' });
+    ScrollReveal().reveal('.character-card', { interval: 100, duration: 1000, origin: 'bottom', distance: '20px' });
+    ScrollReveal().reveal('.fade-in, .shadow-xl, .rounded-lg', { duration: 1000, origin: 'bottom', distance: '30px' });
+</script>
+
+<script>
+    // Preloader
+    window.addEventListener('load', function () {
+        setTimeout(() => {
+            document.getElementById('preloader').style.display = 'none';
+        }, 1200);
+    });
+
+    // Fragment system with localStorage
+    const fragmentsFound = new Set(JSON.parse(localStorage.getItem('karina_fragments')) || []);
+    const fragments = document.querySelectorAll('.fragment');
+
+    fragments.forEach(fragment => {
+        const fragmentId = fragment.getAttribute('data-fragment');
+        if (fragmentsFound.has(fragmentId)) {
+            fragment.style.display = 'none';
+        }
+
+        fragment.addEventListener('click', function () {
+            fragmentsFound.add(fragmentId);
+            this.style.display = 'none';
+            localStorage.setItem('karina_fragments', JSON.stringify(Array.from(fragmentsFound)));
+
+            if (fragmentsFound.size === 6) {
+                setTimeout(() => {
+                    document.getElementById('secret-modal').classList.remove('hidden');
+                }, 1000);
+            }
+        });
+    });
+
+    // Service Worker Registration
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js').then(() => {
+            console.log("Service Worker registrado.");
+        });
+    }
+</script>
+
 </body>
 </html>
